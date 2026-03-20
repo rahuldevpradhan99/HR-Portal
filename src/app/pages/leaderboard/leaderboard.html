@@ -1,0 +1,58 @@
+<div class="leaderboard-container">
+  <h2>🏆 Leaderboard</h2>
+  <p class="leaderboard-intro">See how you rank among your colleagues!</p>
+
+  <div class="current-user-stats">
+    <div class="stat-card">
+      <h3>Your Rank</h3>
+      <div class="rank-display">
+        <span class="rank-number">{{currentUserRank}}</span>
+        <span class="rank-medal">{{getRankMedal(currentUserRank)}}</span>
+      </div>
+      <p class="rank-label">out of {{leaderboardData.length}} employees</p>
+    </div>
+  </div>
+
+  <div class="leaderboard-table-container">
+    <table class="leaderboard-table">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Employee</th>
+          <th>Department</th>
+          <th>Points</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let employee of leaderboardData" 
+            [class]="getRankClass(employee.rank)">
+          <td class="rank-cell">
+            <span class="rank-number">{{employee.rank}}</span>
+            <span class="medal">{{getRankMedal(employee.rank)}}</span>
+          </td>
+          <td class="name-cell">
+            <span class="employee-name">{{employee.name}}</span>
+            <span *ngIf="employee.isCurrentUser" class="you-badge">YOU</span>
+          </td>
+          <td class="department-cell">{{employee.department}}</td>
+          <td class="points-cell">
+            <span class="points">{{employee.points}}</span>
+            <span class="xp-label">XP</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="leaderboard-summary">
+    <div class="summary-card">
+      <h3>🎯 Top Performer</h3>
+      <p>{{leaderboardData[0]?.name}} with {{leaderboardData[0]?.points}} XP</p>
+    </div>
+    <div class="summary-card">
+      <h3>📈 Keep Going!</h3>
+      <p *ngIf="currentUserRank > 1">You're {{currentUserRank - 1}} positions away from the top!</p>
+      <p *ngIf="currentUserRank === 1">Congratulations! You're leading the pack! 🎉</p>
+    </div>
+  </div>
+</div>

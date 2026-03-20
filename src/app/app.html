@@ -1,0 +1,24 @@
+<main>
+  <nav class="main-nav">
+    <div class="nav-brand">
+      <span class="logo">🚀 OnboardQuest</span>
+    </div>
+    <div class="nav-links">
+      <a *ngif="!(isEmployee() || isHrAdmin())"routerLink="/" class="nav-link">Login</a>
+      <a *ngIf="isEmployee()"routerLink="/dashboard" class="nav-link">Dashboard</a>
+      <a *ngIf="isEmployee()"routerLink="/missions" class="nav-link">Missions</a>
+      <a *ngIf="isEmployee() || isHrAdmin()" routerLink="/leaderboard" class="nav-link">Leaderboard</a>
+      <a *ngIf="isEmployee()" routerLink="/learning" class="nav-link">Learning</a>
+      <a *ngIf="isHrAdmin()" routerLink="/admin" class="nav-link">HR Admin</a>
+      
+      <div *ngIf="getCurrentUser()" class="user-menu">
+        <span class="user-info">{{getCurrentUser()?.name}}</span>
+        <button class="logout-btn" (click)="logout()">Sign Out</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-content">
+    <router-outlet></router-outlet>
+  </div>
+</main>

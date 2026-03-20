@@ -1,0 +1,154 @@
+<div class="hr-admin-container">
+  <div class="admin-header">
+    <h2>👥 HR Admin Dashboard</h2>
+    <div class="admin-info">
+      <p>Welcome, {{getCurrentUser()?.name}}!</p>
+      <button class="logout-btn" (click)="logout()">Sign Out</button>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon">👥</div>
+      <h3>{{stats.totalEmployees}}</h3>
+      <p>Total Employees</p>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">🎯</div>
+      <h3>{{stats.activeOnboarding}}</h3>
+      <p>Active Onboarding</p>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">✅</div>
+      <h3>{{stats.completedOnboarding}}</h3>
+      <p>Completed</p>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">📊</div>
+      <h3>{{stats.averageProgress}}%</h3>
+      <p>Average Progress</p>
+    </div>
+  </div>
+
+  <div class="management-section">
+    <div class="section-header">
+      <h3>Employee Management</h3>
+      <button class="add-user-btn" (click)="toggleAddUserForm()">
+        + Add New Employee
+      </button>
+    </div>
+
+    <!-- Add User Form -->
+    <div *ngIf="showAddUserForm" class="form-modal">
+      <div class="form-content">
+        <h4>Add New Employee</h4>
+        <form (ngSubmit)="addUser()">
+          <div class="form-group">
+            <label>Employee ID:</label>
+            <input type="text" [(ngModel)]="newUser.employeeId" name="employeeId" required>
+          </div>
+          <div class="form-group">
+            <label>Full Name:</label>
+            <input type="text" [(ngModel)]="newUser.name" name="name" required>
+          </div>
+          <div class="form-group">
+            <label>Email:</label>
+            <input type="email" [(ngModel)]="newUser.email" name="email" required>
+          </div>
+          <div class="form-group">
+            <label>Department:</label>
+            <input type="text" [(ngModel)]="newUser.department" name="department" required>
+          </div>
+          <div class="form-group">
+            <label>Password:</label>
+            <input type="password" [(ngModel)]="newUser.password" name="password" required>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="submit-btn">Add Employee</button>
+            <button type="button" class="cancel-btn" (click)="toggleAddUserForm()">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Edit User Form -->
+    <div *ngIf="showEditUserForm && selectedUser" class="form-modal">
+      <div class="form-content">
+        <h4>Edit Employee: {{selectedUser.name}}</h4>
+        <form (ngSubmit)="updateUser()">
+          <div class="form-group">
+            <label>Employee ID:</label>
+            <input type="text" [(ngModel)]="editUserData.employeeId" name="employeeId" readonly>
+          </div>
+          <div class="form-group">
+            <label>Full Name:</label>
+            <input type="text" [(ngModel)]="editUserData.name" name="name" required>
+          </div>
+          <div class="form-group">
+            <label>Email:</label>
+            <input type="email" [(ngModel)]="editUserData.email" name="email" required>
+          </div>
+          <div class="form-group">
+            <label>Department:</label>
+            <input type="text" [(ngModel)]="editUserData.department" name="department" required>
+          </div>
+          <div class="form-group">
+            <label>New Password (leave blank to keep current):</label>
+            <input type="password" [(ngModel)]="editUserData.password" name="password">
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="submit-btn">Update Employee</button>
+            <button type="button" class="cancel-btn" (click)="cancelEdit()">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Employees Table -->
+    <div class="employees-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Employee ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Department</th>
+            <th>Role</th>
+            <th>Onboarding Progress</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let employee of employees">
+            <td>{{employee.employeeId}}</td>
+            <td>{{employee.name}}</td>
+            <td>{{employee.email}}</td>
+            <td>{{employee.department}}</td>
+            <td>
+              <span class="role-badge" [class]="getRoleBadgeClass(employee.role)">
+                {{employee.role === 'hr-admin' ? 'HR Admin' : 'Employee'}}
+              </span>
+            </td>
+            <td>
+              <div class="progress-cell">
+                <div class="progress-bar-small">
+                  <div class="progress-fill" [style.width.%]="getRandomProgress()" 
+                       [class]="getProgressColor(getRandomProgress())"></div>
+                </div>
+                <span>{{getRandomProgress()}}%</span>
+              </div>
+            </td>
+            <td>
+              <div class="action-buttons">
+                <button class="edit-btn" (click)="editUserFunc(employee)" 
+                        [disabled]="employee.role === 'hr-admin'">Edit</button>
+                <button class="delete-btn" (click)="deleteUser(employee)" 
+                        [disabled]="employee.role === 'hr-admin'">Delete</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

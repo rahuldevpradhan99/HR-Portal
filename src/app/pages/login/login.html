@@ -1,0 +1,38 @@
+<div class="login-container">
+  <h1>OnboardQuest 🚀</h1>
+  <p class="login-subtitle">Employee Onboarding Platform</p>
+  
+  <div class="login-form">
+    <input type="text" placeholder="Employee ID" [(ngModel)]="employeeId">
+    
+    <input type="password" placeholder="Password" [(ngModel)]="password">
+    
+    <div *ngIf="errorMessage" class="error-message">
+      {{errorMessage}}
+    </div>
+    
+    <button (click)="login()">Sign In</button>
+  </div>
+
+  <div class="demo-section">
+    <button class="demo-toggle" (click)="toggleDemoCredentials()">
+      {{showDemoCredentials ? 'Hide' : 'Show'}} Demo Credentials
+    </button>
+    
+    <div *ngIf="showDemoCredentials" class="demo-credentials">
+      <h4>Demo Accounts:</h4>
+      <div class="demo-account">
+        <strong>HR Admin:</strong>
+        <button class="fill-btn" (click)="fillDemoCredentials('hr-admin')">
+          Fill HR001 / admin123
+        </button>
+      </div>
+      <div class="demo-account">
+        <strong>Employee:</strong>
+        <button class="fill-btn" (click)="fillDemoCredentials('employee')">
+          Fill EMP001 / emp123
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

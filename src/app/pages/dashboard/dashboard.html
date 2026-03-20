@@ -1,0 +1,59 @@
+<div class="dashboard-container">
+  <div class="welcome-header">
+    <h2>Welcome back, {{getUserName()}}! 👋</h2>
+    <div class="user-info">
+      <p class="employee-id">Employee ID: {{getEmployeeId()}}</p>
+      <p class="department">Department: {{getDepartment()}}</p>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <h3>Your Progress</h3>
+      <div class="progress-container">
+        <div class="progress-bar" [style.width.%]="progress"></div>
+      </div>
+      <p class="progress-text">{{progress}}% Complete</p>
+    </div>
+
+    <div class="stat-card">
+      <h3>Total Points</h3>
+      <div class="points">{{points}} XP</div>
+      <p class="level-text">Level {{getCurrentLevel()}}</p>
+    </div>
+  </div>
+
+  <div class="action-cards">
+    <div class="action-card" routerLink="/missions">
+      <div class="card-icon">🎯</div>
+      <h3>Start Missions</h3>
+      <p>Complete onboarding tasks and earn points</p>
+    </div>
+
+    <div class="action-card" routerLink="/leaderboard">
+      <div class="card-icon">🏆</div>
+      <h3>Leaderboard</h3>
+      <p>See how you rank among colleagues</p>
+    </div>
+
+    <div class="action-card" routerLink="/learning">
+      <div class="card-icon">📚</div>
+      <h3>Learning Hub</h3>
+      <p>Access training materials and resources</p>
+    </div>
+  </div>
+
+  <div class="achievements">
+    <h3>Recent Achievements</h3>
+    <div class="achievement-badges">
+      <div class="badge" *ngIf="progress >= 25">🌟 Starter</div>
+      <div class="badge" *ngIf="progress >= 50">🚀 Progress Maker</div>
+      <div class="badge" *ngIf="progress >= 75">⭐ Onboarding Pro</div>
+      <div class="badge" *ngIf="progress >= 100">🎉 Graduate</div>
+    </div>
+  </div>
+
+  <div class="logout-section">
+    <button class="logout-btn" (click)="logout()">Sign Out</button>
+  </div>
+</div>

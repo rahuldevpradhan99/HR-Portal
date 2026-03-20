@@ -1,0 +1,99 @@
+<div class="learning-container">
+  <div class="learning-header">
+    <h2>📚 Learning Hub</h2>
+    <p class="learning-subtitle">Expand your knowledge and skills with our comprehensive training modules</p>
+  </div>
+
+  <div class="learning-stats">
+    <div class="stat-card">
+      <h3>Your Progress</h3>
+      <div class="progress-container">
+        <div class="progress-bar" [style.width.%]="getTotalProgress()"></div>
+      </div>
+      <p>{{getTotalProgress()}}% Complete</p>
+    </div>
+    <div class="stat-card">
+      <h3>Learning Points</h3>
+      <div class="points">{{getTotalPoints()}}</div>
+      <p>Total Earned</p>
+    </div>
+  </div>
+
+  <div class="learning-controls">
+    <div class="search-section">
+      <input type="text" 
+             placeholder="Search modules..." 
+             [(ngModel)]="searchQuery"
+             class="search-input">
+    </div>
+    <div class="category-filter">
+      <select [(ngModel)]="selectedCategory" class="category-select">
+        <option *ngFor="let category of categories" [value]="category">
+          {{category === 'all' ? 'All Categories' : category}}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <div class="modules-grid">
+    <div *ngFor="let module of filteredModules" 
+         class="module-card"
+         [class.completed]="module.completed">
+      
+      <div class="module-header">
+        <div class="module-icon">{{module.icon}}</div>
+        <div class="module-meta">
+          <span class="category-badge">{{module.category}}</span>
+          <span class="difficulty-badge" 
+                [style.background-color]="getDifficultyColor(module.difficulty)">
+            {{module.difficulty}}
+          </span>
+        </div>
+      </div>
+
+      <div class="module-content">
+        <h3>{{module.title}}</h3>
+        <p>{{module.description}}</p>
+        
+        <div class="module-details">
+          <span class="duration">⏱️ {{module.duration}}</span>
+          <span class="points-reward">+{{module.points}} points</span>
+        </div>
+
+        <div class="module-topics">
+          <h4>Topics:</h4>
+          <div class="topics-list">
+            <span *ngFor="let topic of module.topics" class="topic-tag">{{topic}}</span>
+          </div>
+        </div>
+
+        <div class="module-progress">
+          <div class="progress-label">
+            <span>Progress: {{module.progress}}%</span>
+            <span *ngIf="module.completed" class="completed-badge">✓ Completed</span>
+          </div>
+          <div class="progress-container">
+            <div class="progress-bar" [style.width.%]="module.progress"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="module-actions">
+        <button *ngIf="!module.completed" 
+                class="start-btn" 
+                (click)="startModule(module)">
+          {{module.progress > 0 ? 'Continue' : 'Start'}} Module
+        </button>
+        <button *ngIf="module.completed" 
+                class="completed-btn" 
+                disabled>
+          ✓ Completed
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="filteredModules.length === 0" class="no-results">
+    <p>No modules found matching your criteria.</p>
+  </div>
+</div>

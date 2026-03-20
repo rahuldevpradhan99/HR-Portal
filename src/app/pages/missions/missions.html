@@ -1,0 +1,54 @@
+<div class="missions-container">
+  <h2>Onboarding Missions 🎯</h2>
+  <p class="missions-intro">Complete these missions to progress through your onboarding journey!</p>
+
+  <div class="missions-grid">
+   <div class="mission-card"
+     *ngFor="let mission of missions; let i = index"
+     [@badgeUnlock]="mission.completed ? 'complete' : 'incomplete'"
+     [class.completed]="mission.completed">
+      
+      <div class="mission-header">
+        <div class="mission-icon">{{getMissionIcon(i)}}</div>
+        <div class="mission-status">
+          <span *ngIf="mission.completed" class="status-badge completed">✓ Completed</span>
+          <span *ngIf="!mission.completed" class="status-badge pending">Pending</span>
+        </div>
+      </div>
+
+      <div class="mission-content">
+        <h3>{{mission.title}}</h3>
+        <p>{{mission.description}}</p>
+        
+        <div class="mission-reward">
+          <span class="points-reward">+{{mission.points || 100}} XP</span>
+          <span class="time-estimate">⏱️ {{mission.estimatedTime || '15 min'}}</span>
+        </div>
+      </div>
+
+      <div class="mission-actions">
+        <button 
+          class="mission-btn" 
+          (click)="completeMission(mission)"
+          [disabled]="mission.completed">
+          <span *ngIf="!mission.completed">Start Mission</span>
+          <span *ngIf="mission.completed">✓ Completed</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="progress-summary">
+    <h3>Your Progress</h3>
+    <div class="summary-stats">
+      <div class="stat">
+        <span class="stat-value">{{completedMissions()}}/{{missions.length}}</span>
+        <span class="stat-label">Missions Completed</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">{{totalPoints()}}</span>
+        <span class="stat-label">Total Points Earned</span>
+      </div>
+    </div>
+  </div>
+</div>
